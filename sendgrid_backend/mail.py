@@ -75,8 +75,8 @@ class SendgridBackend(BaseEmailBackend):
             self._lock = None
             self.stream = None
             
-        if hasattr(settings, "DEFAULT_FROM_EMAIL") and settings.DEFAULT_FROM_EMAIL:
-            self.default_from_email = settings.DEFAULT_FROM_EMAIL
+        if hasattr(settings, "DEFAULT_FROM_EMAIL_BACKEND") and settings.DEFAULT_FROM_EMAIL_BACKEND:
+            self.default_from_email = settings.DEFAULT_FROM_EMAIL_BACKEND
         else:
             self.default_from_email = None
 
