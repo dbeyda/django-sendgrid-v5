@@ -74,6 +74,11 @@ class SendgridBackend(BaseEmailBackend):
         else:
             self._lock = None
             self.stream = None
+            
+        if hasattr(settings, "DEFAULT_FROM_EMAIL") and settings.DEFAULT_FROM_EMAIL:
+            self.default_from_email = settings.DEFAULT_FROM_EMAIL
+        else:
+            self.default_from_email = None
 
     def write_to_stream(self, message):
         msg = message.message()
@@ -177,6 +182,9 @@ class SendgridBackend(BaseEmailBackend):
         mail = Mail()
 
         mail.from_email = Email(*self._parse_email_address(msg.from_email))
+        if not mail.from_email and self.default_from_email:
+            mail.from_email = self.default_from_email
+            
         mail.subject = msg.subject
 
         personalization = Personalization()
