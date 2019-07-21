@@ -181,12 +181,12 @@ class SendgridBackend(BaseEmailBackend):
     def _build_sg_mail(self, msg):
         mail = Mail()
         
-        if not msg.from_email and self.default_from_email:
+        if msg.from_email == 'apikey' and self.default_from_email:
             msg.from_email = self.default_from_email
             
         mail.from_email = Email(*self._parse_email_address(msg.from_email))
         mail.subject = msg.subject
-
+        
         personalization = Personalization()
         for addr in msg.to:
             personalization.add_to(Email(*self._parse_email_address(addr)))
